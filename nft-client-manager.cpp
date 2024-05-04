@@ -32,12 +32,26 @@ void daemonize() {
         exit(EXIT_FAILURE);
     }
 
+    // load old nftables config
     string command = "nft -f " + nftconf;
+    system(command.c_str());
 
+    // main daemon loop
     while (1) {
-        // do something
-        system(command.c_str());
+        // todo:
+        //  - listen for incoming ncm join requests
+        //  - update nftables conf to allow clients to join ncm and talk to this computer
+        //      - authenticate with a shared secret
+        writeToConfig();
         sleep(3);   // wait 3 seconds before looping again
     }
 
+}
+
+/**
+ * Writes current ncm table configuration to the configuration file
+*/
+void writeToConfig() {
+    string command = "nft list table inet ncm-table > " + nftconf;
+    system(command.c_str());
 }
