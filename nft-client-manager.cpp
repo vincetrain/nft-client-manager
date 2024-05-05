@@ -23,7 +23,7 @@ int main(void) {
 void daemonize() {
     pid_t pid = fork(); // fork the current proccess and return it's process id
 
-    // if pid > 0, we know it's the parent process so we close it
+    // if pid > 0, we know this is currently the parent process (and that the child process ran successfully) so we close it
     if (pid > 0) {
         exit(EXIT_SUCCESS);
     }
